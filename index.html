@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adspend Agency Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --brand-color: #c1ff72;
+            --brand-dark: #a0e65c;
+            --brand-light: #d8ff9e;
+            --card-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #000000;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .brand-bg {
+            background-color: var(--brand-color);
+            color: #000000;
+        }
+        
+        .brand-text {
+            color: var(--brand-color);
+        }
+        
+        .brand-border {
+            border-color: var(--brand-color);
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            border-right: 1px solid #334155;
+            min-height: 100vh;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--brand-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(193, 255, 114, 0.2);
+            border-color: var(--brand-color);
+        }
+        
+        .btn-primary {
+            background: var(--brand-color);
+            color: #000000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: var(--brand-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(193, 255, 114, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--brand-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid var(--brand-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(193, 255, 114, 0.1);
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .status-paused {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .status-warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .metric-card {
+            border-left: 4px solid var(--brand-color);
+        }
+        
+        .nav-item {
+            position: relative;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: rgba(193, 255, 114, 0.1);
+        }
+        
+        .nav-item.active {
+            background: rgba(193, 255, 114, 0.2);
+            color: var(--brand-color);
+        }
+        
+        .nav-item i {
+            width: 24px;
+            margin-right: 12px;
+            text-align: center;
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(193, 255, 114, 0.1);
+            color: var(--brand-color);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(193, 255, 114, 0.3);
+        }
+        
+        .framework-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: rgba(79, 70, 229, 0.2);
+            color: #818cf8;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(79, 70, 229, 0.3);
+        }
+        
+        .llm-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        .tool-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: rgba(14, 165, 233, 0.2);
+            color: #38bdf8;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--brand-color);
+            border-radius: 4px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .form-input {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.2);
+        }
+        
+        .form-select {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.2);
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--brand-color);
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .dashboard-section {
+            display: none;
+        }
+        
+        .dashboard-section.active {
+            display: block;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .data-table th {
+            background: rgba(193, 255, 114, 0.1);
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        
+        .data-table tr:hover {
+            background: rgba(193, 255, 114, 0.05);
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            color: var(--brand-color);
+        }
+        
+        .tab.active {
+            color: var(--brand-color);
+            border-bottom-color: var(--brand-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 p-4">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-lg brand-bg flex items-center justify-center mr-3">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold">Adspend Agency</h1>
+                    <p class="text-xs brand-text">Internal Dashboard</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li>
+                        <div class="nav-item active" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="projects">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Projects</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="clients">
+                            <i class="fas fa-users"></i>
+                            <span>Clients</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="api">
+                            <i class="fas fa-plug"></i>
+                            <span>API Connections</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="agents">
+                            <i class="fas fa-robot"></i>
+                            <span>AI Agents</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="analytics">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="funnels">
+                            <i class="fas fa-filter"></i>
+                            <span>Funnels</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="abtesting">
+                            <i class="fas fa-flask"></i>
+                            <span>A/B Testing</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="financials">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Financials</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="acquisition">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Acquisition</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="absolute bottom-0 w-64 p-4">
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="font-medium">John Doe</p>
+                        <p class="text-xs text-gray-400">Agency Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="bg-black bg-opacity-90 backdrop-blur-sm border-b border-gray-800 p-4 flex justify-between items-center">
+                <h2 class="text-xl font-bold" id="pageTitle">Agency Command Center</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-color">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-gray-900">
+                        <i class="fas fa-bell text-gray-400"></i>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-gray-900">
+                        <i class="fas fa-cog text-gray-400"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <div class="p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="dashboard-section active">
+                    <!-- Key Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div class="card p-4 metric-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-400">Monthly Revenue</p>
+                                    <p class="text-2xl font-bold">$847K</p>
+                                </div>
+                                <div class="brand-bg p-2 rounded-lg">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">85% of monthly goal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4 metric-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-400">Client Acquisition</p>
+                                    <p class="text-2xl font-bold">24</p>
+                                </div>
+                                <div class="brand-bg p-2 rounded-lg">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 120%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">20% above target</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4 metric-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-400">Avg. ROI</p>
+                                    <p class="text-2xl font-bold">4.2x</p>
+                                </div>
+                                <div class="brand-bg p-2 rounded-lg">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 84%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Target: 5x</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4 metric-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-400">Active AI Agents</p>
+                                    <p class="text-2xl font-bold">18</p>
+                                </div>
+                                <div class="brand-bg p-2 rounded-lg">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Optimizing campaigns</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Agents & Performance -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- AI Agents Section -->
+                        <div class="lg:col-span-2">
+                            <div class="card p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-bold">AI Agent Performance</h3>
+                                    <button id="deployNewAgentBtn" class="btn-primary flex items-center">
+                                        <i class="fas fa-plus mr-2"></i> Deploy Agent
+                                    </button>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- AI Agent Cards -->
+                                    <div class="card p-4">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold">Media Buyer Agent</h4>
+                                                <p class="text-sm text-gray-400">Project: Ecom Store Inc.</p>
+                                            </div>
+                                            <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <p class="text-sm text-gray-400 mb-1">Performance</p>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 92%"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-400 mt-1">92% optimization score</p>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <p class="text-sm text-gray-400 mb-1">Platforms</p>
+                                            <div class="flex flex-wrap">
+                                                <span class="tech-badge">Meta Ads</span>
+                                                <span class="tech-badge">Google Ads</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex justify-between text-sm">
+                                            <button class="brand-text hover:underline">View Details</button>
+                                            <button class="text-gray-400 hover:text-white">Configure</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card p-4">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold">Creative Generation Agent</h4>
+                                                <p class="text-sm text-gray-400">Project: SaaS Company</p>
+                                            </div>
+                                            <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <p class="text-sm text-gray-400 mb-1">Performance</p>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 87%"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-400 mt-1">87% engagement score</p>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <p class="text-sm text-gray-400 mb-1">Generated</p>
+                                            <div class="flex flex-wrap">
+                                                <span class="framework-badge">24 Images</span>
+                                                <span class="framework-badge">18 Copies</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex justify-between text-sm">
+                                            <button class="brand-text hover:underline">View Details</button>
+                                            <button class="text-gray-400 hover:text-white">Configure</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Funnel Visualization -->
+                        <div>
+                            <div class="card p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-bold">Conversion Funnel</h3>
+                                    <select class="form-select bg-gray-800 border-gray-700 text-white text-sm w-auto">
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>All Time</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm">Impressions</span>
+                                            <span class="text-sm font-medium">2.4M</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm">Clicks</span>
+                                            <span class="text-sm font-medium">124K</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm">Leads</span>
+                                            <span class="text-sm font-medium">18.6K</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 50%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm">Sales</span>
+                                            <span class="text-sm font-medium">3.1K</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <p class="text-sm text-gray-400">Overall Conversion Rate</p>
+                                    <p class="text-xl font-bold brand-text">2.5%</p>
+                                </div>
+                                
+                                <button class="btn-secondary w-full mt-4">Analyze Funnel</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Projects & API Connections -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Recent Projects -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold">Recent Projects</h3>
+                                <a href="#" class="brand-text text-sm">View All</a>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+                                    <div>
+                                        <p class="font-medium">Ecom Store Inc.</p>
+                                        <p class="text-sm text-gray-400">Client: Sarah Johnson</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                                        <p class="text-sm mt-1">$124K revenue</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+                                    <div>
+                                        <p class="font-medium">SaaS Company</p>
+                                        <p class="text-sm text-gray-400">Client: Michael Chen</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                                        <p class="text-sm mt-1">$87K revenue</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="createProjectBtn" class="btn-primary w-full mt-4">Create New Project</button>
+                        </div>
+                        
+                        <!-- API Connections -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold">API Connections</h3>
+                                <a href="#" class="brand-text text-sm">Manage All</a>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-facebook-f text-blue-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Meta Ads</p>
+                                            <p class="text-sm text-gray-400">8 accounts connected</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-active px-2 py-1 rounded-full text-xs">Connected</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-red-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-google text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Google Ads</p>
+                                            <p class="text-sm text-gray-400">6 accounts connected</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-active px-2 py-1 rounded-full text-xs">Connected</span>
+                                </div>
+                            </div>
+                            
+                            <button id="addConnectionBtn" class="btn-primary w-full mt-4">Add New Connection</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projects Section -->
+                <div id="projects" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">Projects Management</h3>
+                            <button id="createProjectBtn2" class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Create Project
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4">
+                        <div class="mb-4">
+                            <div class="flex space-x-4">
+                                <input type="text" placeholder="Search projects..." class="form-input flex-1">
+                                <select class="form-select w-48">
+                                    <option>All Status</option>
+                                    <option>Active</option>
+                                    <option>Paused</option>
+                                    <option>Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Client</th>
+                                        <th>Budget</th>
+                                        <th>Revenue</th>
+                                        <th>ROI</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ecom Store Inc.</td>
+                                        <td>Sarah Johnson</td>
+                                        <td>$50,000</td>
+                                        <td>$124,000</td>
+                                        <td>2.48x</td>
+                                        <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
+                                        <td>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>SaaS Company</td>
+                                        <td>Michael Chen</td>
+                                        <td>$30,000</td>
+                                        <td>$87,000</td>
+                                        <td>2.9x</td>
+                                        <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
+                                        <td>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Local Restaurant</td>
+                                        <td>Emily Rodriguez</td>
+                                        <td>$15,000</td>
+                                        <td>$32,000</td>
+                                        <td>2.13x</td>
+                                        <td><span class="status-paused px-2 py-1 rounded-full text-xs">Paused</span></td>
+                                        <td>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coaching Business</td>
+                                        <td>David Wilson</td>
+                                        <td>$25,000</td>
+                                        <td>$64,000</td>
+                                        <td>2.56x</td>
+                                        <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
+                                        <td>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Clients Section -->
+                <div id="clients" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">Clients Management</h3>
+                            <button id="createClientBtn" class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Add Client
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Client Cards -->
+                        <div class="card p-4">
+                            <div class="flex items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Client" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-bold">Sarah Johnson</h4>
+                                    <p class="text-sm text-gray-400">Ecom Store Inc.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Email:</span>
+                                    <span>sarah@ecomstore.com</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Phone:</span>
+                                    <span>+1 (555) 123-4567</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Projects:</span>
+                                    <span>2 Active</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Total Revenue:</span>
+                                    <span class="brand-text">$124K</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button class="btn-secondary flex-1 text-sm">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <div class="flex items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-bold">Michael Chen</h4>
+                                    <p class="text-sm text-gray-400">SaaS Company</p>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Email:</span>
+                                    <span>michael@saascompany.com</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Phone:</span>
+                                    <span>+1 (555) 987-6543</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Projects:</span>
+                                    <span>1 Active</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Total Revenue:</span>
+                                    <span class="brand-text">$87K</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button class="btn-secondary flex-1 text-sm">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <div class="flex items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-bold">Emily Rodriguez</h4>
+                                    <p class="text-sm text-gray-400">Local Restaurant</p>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Email:</span>
+                                    <span>emily@restaurant.com</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Phone:</span>
+                                    <span>+1 (555) 456-7890</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Projects:</span>
+                                    <span>1 Paused</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Total Revenue:</span>
+                                    <span class="brand-text">$32K</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button class="btn-secondary flex-1 text-sm">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- API Connections Section -->
+                <div id="api" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">API Connections</h3>
+                            <button id="addConnectionBtn2" class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Add Connection
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Connected Platforms</h4>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-facebook-f text-blue-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Meta Ads</p>
+                                            <p class="text-sm text-gray-400">8 accounts</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-active px-2 py-1 rounded-full text-xs">Connected</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-red-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-google text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Google Ads</p>
+                                            <p class="text-sm text-gray-400">6 accounts</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-active px-2 py-1 rounded-full text-xs">Connected</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center mr-3">
+                                            <i class="fab fa-tiktok text-gray-300"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">TikTok Ads</p>
+                                            <p class="text-sm text-gray-400">3 accounts</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-warning px-2 py-1 rounded-full text-xs">Issues</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Connection Status</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Data Sync</span>
+                                        <span class="text-sm">98%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 98%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">API Health</span>
+                                        <span class="text-sm">Excellent</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Response Time</span>
+                                        <span class="text-sm">120ms</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <p class="text-sm text-gray-400 mb-2">Last Sync</p>
+                                    <p class="font-medium">2 minutes ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Agents Section -->
+                <div id="agents" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">AI Agents Management</h3>
+                            <button id="deployNewAgentBtn2" class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Deploy Agent
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- AI Agent Cards -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-bold">Media Buyer Agent</h4>
+                                    <p class="text-sm text-gray-400">Project: Ecom Store Inc.</p>
+                                </div>
+                                <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Performance</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 92%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">92% optimization score</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Platforms</p>
+                                <div class="flex flex-wrap">
+                                    <span class="tech-badge">Meta Ads</span>
+                                    <span class="tech-badge">Google Ads</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Last Activity</p>
+                                <p class="text-xs">Optimized bids 5 minutes ago</p>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm">
+                                <button class="brand-text hover:underline">View Details</button>
+                                <button class="text-gray-400 hover:text-white">Configure</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-bold">Creative Generation Agent</h4>
+                                    <p class="text-sm text-gray-400">Project: SaaS Company</p>
+                                </div>
+                                <span class="status-active px-2 py-1 rounded-full text-xs">Active</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Performance</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 87%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">87% engagement score</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Generated</p>
+                                <div class="flex flex-wrap">
+                                    <span class="framework-badge">24 Images</span>
+                                    <span class="framework-badge">18 Copies</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Last Activity</p>
+                                <p class="text-xs">Created 3 new creatives 1 hour ago</p>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm">
+                                <button class="brand-text hover:underline">View Details</button>
+                                <button class="text-gray-400 hover:text-white">Configure</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-bold">Analytics Agent</h4>
+                                    <p class="text-sm text-gray-400">Project: Local Restaurant</p>
+                                </div>
+                                <span class="status-paused px-2 py-1 rounded-full text-xs">Paused</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Performance</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Needs optimization</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Monitoring</p>
+                                <div class="flex flex-wrap">
+                                    <span class="tool-badge">Meta Ads</span>
+                                    <span class="tool-badge">Google Analytics</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-400 mb-1">Last Activity</p>
+                                <p class="text-xs">Paused 2 days ago</p>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm">
+                                <button class="brand-text hover:underline">View Details</button>
+                                <button class="text-gray-400 hover:text-white">Resume</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analytics Section -->
+                <div id="analytics" class="dashboard-section">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold">Analytics Dashboard</h3>
+                    </div>
+                    
+                    <div class="tab-container">
+                        <div class="tab active" data-tab="overview">Overview</div>
+                        <div class="tab" data-tab="campaigns">Campaigns</div>
+                        <div class="tab" data-tab="audience">Audience</div>
+                        <div class="tab" data-tab="conversions">Conversions</div>
+                    </div>
+                    
+                    <div id="overview" class="tab-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                            <div class="card p-4 metric-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-gray-400">Total Impressions</p>
+                                        <p class="text-2xl font-bold">2.4M</p>
+                                    </div>
+                                    <div class="brand-bg p-2 rounded-lg">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-green-400 mt-2">
+                                    <i class="fas fa-arrow-up"></i> 12% from last month
+                                </p>
+                            </div>
+                            
+                            <div class="card p-4 metric-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-gray-400">Total Clicks</p>
+                                        <p class="text-2xl font-bold">124K</p>
+                                    </div>
+                                    <div class="brand-bg p-2 rounded-lg">
+                                        <i class="fas fa-mouse-pointer"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-green-400 mt-2">
+                                    <i class="fas fa-arrow-up"></i> 8% from last month
+                                </p>
+                            </div>
+                            
+                            <div class="card p-4 metric-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-gray-400">Total Leads</p>
+                                        <p class="text-2xl font-bold">18.6K</p>
+                                    </div>
+                                    <div class="brand-bg p-2 rounded-lg">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-green-400 mt-2">
+                                    <i class="fas fa-arrow-up"></i> 15% from last month
+                                </p>
+                            </div>
+                            
+                            <div class="card p-4 metric-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-gray-400">Total Sales</p>
+                                        <p class="text-2xl font-bold">3.1K</p>
+                                    </div>
+                                    <div class="brand-bg p-2 rounded-lg">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-green-400 mt-2">
+                                    <i class="fas fa-arrow-up"></i> 22% from last month
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="card p-4">
+                                <h4 class="text-lg font-bold mb-4">Performance Over Time</h4>
+                                <div class="chart-container">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="card p-4">
+                                <h4 class="text-lg font-bold mb-4">Platform Breakdown</h4>
+                                <div class="chart-container">
+                                    <canvas id="platformChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Funnels Section -->
+                <div id="funnels" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">Sales Funnels</h3>
+                            <button class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Create Funnel
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Ecom Store Funnel</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Homepage Views</span>
+                                        <span class="text-sm font-medium">45,230</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Product Views</span>
+                                        <span class="text-sm font-medium">12,450</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Add to Cart</span>
+                                        <span class="text-sm font-medium">3,240</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Checkout</span>
+                                        <span class="text-sm font-medium">1,890</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Purchase</span>
+                                        <span class="text-sm font-medium">1,240</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 p-3 bg-gray-800 rounded-lg">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Overall Conversion Rate</span>
+                                    <span class="text-lg font-bold brand-text">2.74%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">SaaS Company Funnel</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Landing Page Views</span>
+                                        <span class="text-sm font-medium">32,100</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Demo Requests</span>
+                                        <span class="text-sm font-medium">2,890</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Demo Scheduled</span>
+                                        <span class="text-sm font-medium">1,450</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Demo Completed</span>
+                                        <span class="text-sm font-medium">980</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Subscriptions</span>
+                                        <span class="text-sm font-medium">320</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 p-3 bg-gray-800 rounded-lg">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Overall Conversion Rate</span>
+                                    <span class="text-lg font-bold brand-text">1.0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- A/B Testing Section -->
+                <div id="abtesting" class="dashboard-section">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold">A/B Testing</h3>
+                            <button class="btn-primary flex items-center">
+                                <i class="fas fa-plus mr-2"></i> New Test
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Active Tests</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h5 class="font-medium">Ad Creative Test</h5>
+                                            <p class="text-sm text-gray-400">Ecom Store Inc.</p>
+                                        </div>
+                                        <span class="text-xs text-blue-400">Variant A</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2 mb-2">
+                                        <div>
+                                            <p class="text-xs text-gray-400">CTR</p>
+                                            <p class="font-medium">2.4%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-400">Conversions</p>
+                                            <p class="font-medium">124</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-xs text-gray-400">Running for 5 days</p>
+                                </div>
+                                
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h5 class="font-medium">Ad Creative Test</h5>
+                                            <p class="text-sm text-gray-400">Ecom Store Inc.</p>
+                                        </div>
+                                        <span class="text-xs text-purple-400">Variant B</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2 mb-2">
+                                        <div>
+                                            <p class="text-xs text-gray-400">CTR</p>
+                                            <p class="font-medium">3.1%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-400">Conversions</p>
+                                            <p class="font-medium">187</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-xs text-gray-400">Running for 5 days</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Completed Tests</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-green-500 pl-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h5 class="font-medium">Landing Page Test</h5>
+                                            <p class="text-sm text-gray-400">SaaS Company</p>
+                                        </div>
+                                        <span class="text-xs brand-text">Winner</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2 mb-2">
+                                        <div>
+                                            <p class="text-xs text-gray-400">Conversion Rate</p>
+                                            <p class="font-medium">8.7%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-400">Improvement</p>
+                                            <p class="font-medium">+32%</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-xs text-gray-400">Completed 2 days ago</p>
+                                </div>
+                                
+                                <div class="border-l-4 border-gray-500 pl-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h5 class="font-medium">Email Subject Test</h5>
+                                            <p class="text-sm text-gray-400">Coaching Business</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400">No Winner</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2 mb-2">
+                                        <div>
+                                            <p class="text-xs text-gray-400">Open Rate</p>
+                                            <p class="font-medium">24.5%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-400">Difference</p>
+                                            <p class="font-medium">±2%</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-xs text-gray-400">Completed 1 week ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financials Section -->
+                <div id="financials" class="dashboard-section">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold">Financial Overview</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Revenue Summary</h4>
+                            
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">This Month</span>
+                                    <span class="font-medium">$847,200</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Last Month</span>
+                                    <span class="font-medium">$723,500</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Growth</span>
+                                    <span class="font-medium text-green-400">+17.1%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <div class="chart-container" style="height: 200px;">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Expense Breakdown</h4>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Ad Spend</span>
+                                        <span class="text-sm font-medium">$324,500</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">AI Agents</span>
+                                        <span class="text-sm font-medium">$87,200</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 17%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Operations</span>
+                                        <span class="text-sm font-medium">$65,800</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 13%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm">Other</span>
+                                        <span class="text-sm font-medium">$22,000</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Profit Metrics</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="text-center p-4 bg-gray-800 rounded-lg">
+                                    <p class="text-sm text-gray-400">Net Profit</p>
+                                    <p class="text-3xl font-bold brand-text">$522,700</p>
+                                    <p class="text-sm text-green-400 mt-1">+23.5% from last month</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                                        <p class="text-sm text-gray-400">ROI</p>
+                                        <p class="text-xl font-bold">2.6x</p>
+                                    </div>
+                                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                                        <p class="text-sm text-gray-400">Profit Margin</p>
+                                        <p class="text-xl font-bold">61.7%</p>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn-secondary w-full">View Detailed Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acquisition Section -->
+                <div id="acquisition" class="dashboard-section">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold">Acquisition Channels</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Channel Performance</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-facebook-f text-blue-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Facebook Ads</p>
+                                            <p class="text-sm text-gray-400">2,340 leads</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium">$45.20</p>
+                                        <p class="text-xs text-gray-400">CPL</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-red-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-google text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Google Ads</p>
+                                            <p class="text-sm text-gray-400">1,890 leads</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium">$52.80</p>
+                                        <p class="text-xs text-gray-400">CPL</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center mr-3">
+                                            <i class="fab fa-linkedin-in text-purple-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">LinkedIn Ads</p>
+                                            <p class="text-sm text-gray-400">890 leads</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium">$78.40</p>
+                                        <p class="text-xs text-gray-400">CPL</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Lead Quality Score</h4>
+                            
+                            <div class="chart-container mb-4">
+                                <canvas id="leadQualityChart"></canvas>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="text-center p-3 bg-gray-800 rounded-lg">
+                                    <p class="text-sm text-gray-400">Avg. Quality Score</p>
+                                    <p class="text-xl font-bold">8.4/10</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-800 rounded-lg">
+                                    <p class="text-sm text-gray-400">Conversion Rate</p>
+                                    <p class="text-xl font-bold">24.7%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div id="settings" class="dashboard-section">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold">Settings</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">General Settings</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Agency Name</label>
+                                    <input type="text" class="form-input" value="Adspend Agency">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Timezone</label>
+                                    <select class="form-select">
+                                        <option>UTC-5 (Eastern Time)</option>
+                                        <option>UTC-8 (Pacific Time)</option>
+                                        <option>UTC+0 (GMT)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Currency</label>
+                                    <select class="form-select">
+                                        <option>USD ($)</option>
+                                        <option>EUR (€)</option>
+                                        <option>GBP (£)</option>
+                                    </select>
+                                </div>
+                                
+                                <button class="btn-primary w-full">Save Changes</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">AI Agent Settings</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" checked>
+                                        <span>Auto-optimize campaigns</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" checked>
+                                        <span>Generate daily reports</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2">
+                                        <span>Enable creative generation</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Optimization Frequency</label>
+                                    <select class="form-select">
+                                        <option>Every 6 hours</option>
+                                        <option>Every 12 hours</option>
+                                        <option>Daily</option>
+                                    </select>
+                                </div>
+                                
+                                <button class="btn-primary w-full">Save Changes</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-4">
+                            <h4 class="text-lg font-bold mb-4">Notification Settings</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" checked>
+                                        <span>Email notifications</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" checked>
+                                        <span>Push notifications</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2">
+                                        <span>SMS alerts</span>
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Alert Thresholds</label>
+                                    <input type="number" class="form-input" placeholder="ROI below" value="2.0">
+                                </div>
+                                
+                                <button class="btn-primary w-full">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Deploy New Agent Modal -->
+    <div id="deployAgentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Deploy New AI Agent</h2>
+                <button onclick="closeModal('deployAgentModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="deployAgentForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Agent Type</label>
+                        <select class="form-select" required>
+                            <option value="">Select Agent Type</option>
+                            <option value="media-buyer">Media Buyer Agent</option>
+                            <option value="creative">Creative Generation Agent</option>
+                            <option value="analytics">Analytics Agent</option>
+                            <option value="acquisition">Acquisition Agent</option>
+                            <option value="retention">Retention Agent</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project</label>
+                        <select class="form-select" required>
+                            <option value="">Select Project</option>
+                            <option value="ecom">Ecom Store Inc.</option>
+                            <option value="saas">SaaS Company</option>
+                            <option value="restaurant">Local Restaurant</option>
+                            <option value="coaching">Coaching Business</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Agent Name</label>
+                        <input type="text" class="form-input" placeholder="Enter agent name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Platforms to Manage</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span>Meta Ads</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span>Google Ads</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span>TikTok Ads</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span>LinkedIn Ads</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Agent Configuration</label>
+                        <textarea class="form-textarea" placeholder="Enter specific configuration parameters..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Deploy Agent</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Project Modal -->
+    <div id="createProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Create New Project</h2>
+                <button onclick="closeModal('createProjectModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createProjectForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project Name</label>
+                        <input type="text" class="form-input" placeholder="Enter project name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Client Name</label>
+                        <input type="text" class="form-input" placeholder="Enter client name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Client Email</label>
+                        <input type="email" class="form-input" placeholder="Enter client email" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Monthly Budget</label>
+                        <input type="number" class="form-input" placeholder="Enter monthly budget" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project Description</label>
+                        <textarea class="form-textarea" placeholder="Enter project description..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Create Project</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Connection Modal -->
+    <div id="addConnectionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Add API Connection</h2>
+                <button onclick="closeModal('addConnectionModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addConnectionForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Platform</label>
+                        <select class="form-select" required>
+                            <option value="">Select Platform</option>
+                            <option value="meta">Meta Ads</option>
+                            <option value="google">Google Ads</option>
+                            <option value="tiktok">TikTok Ads</option>
+                            <option value="linkedin">LinkedIn Ads</option>
+                            <option value="twitter">Twitter Ads</option>
+                            <option value="analytics">Google Analytics</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Account Name</label>
+                        <input type="text" class="form-input" placeholder="Enter account name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">API Key</label>
+                        <input type="password" class="form-input" placeholder="Enter API key" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Account ID</label>
+                        <input type="text" class="form-input" placeholder="Enter account ID" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project</label>
+                        <select class="form-select" required>
+                            <option value="">Select Project</option>
+                            <option value="ecom">Ecom Store Inc.</option>
+                            <option value="saas">SaaS Company</option>
+                            <option value="restaurant">Local Restaurant</option>
+                            <option value="coaching">Coaching Business</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Add Connection</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Client Modal -->
+    <div id="createClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Add New Client</h2>
+                <button onclick="closeModal('createClientModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createClientForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Client Name</label>
+                        <input type="text" class="form-input" placeholder="Enter client name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Company</label>
+                        <input type="text" class="form-input" placeholder="Enter company name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email</label>
+                        <input type="email" class="form-input" placeholder="Enter email" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Phone</label>
+                        <input type="tel" class="form-input" placeholder="Enter phone number" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Industry</label>
+                        <select class="form-select" required>
+                            <option value="">Select Industry</option>
+                            <option value="ecom">E-commerce</option>
+                            <option value="saas">SaaS</option>
+                            <option value="local">Local Business</option>
+                            <option value="coaching">Coaching</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Add Client</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+    
+    <script>
+        // Dashboard navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const section = this.getAttribute('data-section');
+                
+                // Update active nav item
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Update active section
+                document.querySelectorAll('.dashboard-section').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+                document.getElementById(section).classList.add('active');
+                
+                // Update page title
+                const titles = {
+                    'dashboard': 'Agency Command Center',
+                    'projects': 'Projects Management',
+                    'clients': 'Clients Management',
+                    'api': 'API Connections',
+                    'agents': 'AI Agents Management',
+                    'analytics': 'Analytics Dashboard',
+                    'funnels': 'Sales Funnels',
+                    'abtesting': 'A/B Testing',
+                    'financials': 'Financial Overview',
+                    'acquisition': 'Acquisition Channels',
+                    'settings': 'Settings'
+                };
+                document.getElementById('pageTitle').textContent = titles[section];
+            });
+        });
+        
+        // Tab navigation for Analytics
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Deploy New Agent buttons
+        document.getElementById('deployNewAgentBtn').addEventListener('click', function() {
+            openModal('deployAgentModal');
+        });
+        
+        document.getElementById('deployNewAgentBtn2').addEventListener('click', function() {
+            openModal('deployAgentModal');
+        });
+        
+        // Create Project buttons
+        document.getElementById('createProjectBtn').addEventListener('click', function() {
+            openModal('createProjectModal');
+        });
+        
+        document.getElementById('createProjectBtn2').addEventListener('click', function() {
+            openModal('createProjectModal');
+        });
+        
+        // Add Connection buttons
+        document.getElementById('addConnectionBtn').addEventListener('click', function() {
+            openModal('addConnectionModal');
+        });
+        
+        document.getElementById('addConnectionBtn2').addEventListener('click', function() {
+            openModal('addConnectionModal');
+        });
+        
+        // Create Client button
+        document.getElementById('createClientBtn').addEventListener('click', function() {
+            openModal('createClientModal');
+        });
+        
+        // Form submissions
+        document.getElementById('deployAgentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('deployAgentModal');
+            showNotification('AI Agent deployed successfully!');
+        });
+        
+        document.getElementById('createProjectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('createProjectModal');
+            showNotification('Project created successfully!');
+        });
+        
+        document.getElementById('addConnectionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('addConnectionModal');
+            showNotification('API connection added successfully!');
+        });
+        
+        document.getElementById('createClientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('createClientModal');
+            showNotification('Client added successfully!');
+        });
+        
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Close modals when clicking outside
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+        
+        // Initialize Charts
+        window.addEventListener('load', function() {
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart');
+            if (performanceCtx) {
+                new Chart(performanceCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Impressions',
+                            data: [1200000, 1350000, 1180000, 1420000, 1650000, 2400000],
+                            borderColor: '#c1ff72',
+                            backgroundColor: 'rgba(193, 255, 114, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }, {
+                            label: 'Clicks',
+                            data: [45000, 52000, 48000, 58000, 67000, 124000],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e2e8f0'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Platform Chart
+            const platformCtx = document.getElementById('platformChart');
+            if (platformCtx) {
+                new Chart(platformCtx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Facebook', 'Google', 'LinkedIn', 'TikTok', 'Other'],
+                        datasets: [{
+                            data: [35, 30, 20, 10, 5],
+                            backgroundColor: [
+                                '#3b82f6',
+                                '#ef4444',
+                                '#8b5cf6',
+                                '#000000',
+                                '#6b7280'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#e2e8f0',
+                                    padding: 20
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                new Chart(revenueCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Revenue',
+                            data: [650000, 720000, 680000, 750000, 810000, 847000],
+                            backgroundColor: '#c1ff72'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    color: '#9ca3af',
+                                    callback: function(value) {
+                                        return '$' + (value / 1000) + 'K';
+                                    }
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Lead Quality Chart
+            const leadQualityCtx = document.getElementById('leadQualityChart');
+            if (leadQualityCtx) {
+                new Chart(leadQualityCtx.getContext('2d'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['Engagement', 'Demographics', 'Behavior', 'Source', 'Conversion'],
+                        datasets: [{
+                            label: 'Lead Quality',
+                            data: [8.5, 7.2, 9.1, 8.8, 8.4],
+                            borderColor: '#c1ff72',
+                            backgroundColor: 'rgba(193, 255, 114, 0.2)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: {
+                                    color: '#9ca3af',
+                                    backdropColor: 'transparent'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                },
+                                pointLabels: {
+                                    color: '#e2e8f0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
