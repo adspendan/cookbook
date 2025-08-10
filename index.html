@@ -296,6 +296,24 @@
             box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.2);
         }
         
+        .form-textarea {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+        
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.2);
+        }
+        
         .notification {
             position: fixed;
             bottom: 20px;
@@ -366,6 +384,834 @@
         .tab.active {
             color: var(--brand-color);
             border-bottom-color: var(--brand-color);
+        }
+        
+        .ai-chat-container {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-chat-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            margin-right: 0.5rem;
+        }
+        
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+        
+        .ai-message.user {
+            align-self: flex-end;
+        }
+        
+        .ai-message.ai {
+            align-self: flex-start;
+        }
+        
+        .ai-message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            background: #334155;
+        }
+        
+        .ai-message.user .ai-message-content {
+            background: var(--brand-color);
+            color: #000000;
+        }
+        
+        .ai-chat-input {
+            padding: 1rem;
+            border-top: 1px solid #334155;
+            display: flex;
+        }
+        
+        .ai-chat-input input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #e2e8f0;
+            margin-right: 0.5rem;
+        }
+        
+        .ai-chat-input input:focus {
+            outline: none;
+            border-color: var(--brand-color);
+        }
+        
+        .ai-chat-input button {
+            background: var(--brand-color);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-chat-input button:hover {
+            background: var(--brand-dark);
+        }
+        
+        .voice-interface {
+            background: rgba(79, 70, 229, 0.1);
+            border: 1px solid rgba(79, 70, 229, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .voice-button {
+            background: var(--brand-color);
+            color: #000000;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .voice-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(193, 255, 114, 0.5);
+        }
+        
+        .voice-button.listening {
+            background: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+        
+        .voice-response {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: left;
+            min-height: 60px;
+        }
+        
+        .ai-insight-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--brand-color), #8b5cf6);
+        }
+        
+        .ai-insight-card h4 {
+            color: var(--brand-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-insight-card h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .ai-insight-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .ai-confidence {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(79, 70, 229, 0.2);
+            color: #818cf8;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+        
+        .prediction-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prediction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #10b981, #3b82f6);
+        }
+        
+        .prediction-card h4 {
+            color: #10b981;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prediction-card h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .prediction-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prediction-metric .label {
+            color: #9ca3af;
+        }
+        
+        .prediction-metric .value {
+            font-weight: 600;
+        }
+        
+        .prediction-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .prediction-trend.positive {
+            color: #10b981;
+        }
+        
+        .prediction-trend.negative {
+            color: #ef4444;
+        }
+        
+        .funnel-stage {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .funnel-bar {
+            height: 40px;
+            background: linear-gradient(90deg, rgba(193, 255, 114, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+            border: 1px solid rgba(193, 255, 114, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+        
+        .funnel-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--brand-color);
+            border-radius: 6px 0 0 6px;
+            opacity: 0.7;
+        }
+        
+        .funnel-label {
+            position: absolute;
+            left: 1rem;
+            z-index: 1;
+            font-weight: 500;
+        }
+        
+        .funnel-value {
+            position: absolute;
+            right: 1rem;
+            z-index: 1;
+            font-weight: 600;
+        }
+        
+        .ab-test-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .ab-test-card:hover {
+            border-color: var(--brand-color);
+        }
+        
+        .variant-a {
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .variant-b {
+            border-left: 3px solid #8b5cf6;
+        }
+        
+        .winner {
+            border-left: 3px solid var(--brand-color);
+        }
+        
+        .recommendation-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #f59e0b, #ef4444);
+        }
+        
+        .recommendation-card h4 {
+            color: #f59e0b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .recommendation-card h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .recommendation-priority {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .priority-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .anomaly-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .anomaly-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ef4444, #8b5cf6);
+        }
+        
+        .anomaly-card h4 {
+            color: #ef4444;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .anomaly-card h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .anomaly-severity {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .severity-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .severity-high {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .severity-medium {
+            background: rgba(79, 70, 229, 0.2);
+            color: #8b5cf6;
+        }
+        
+        .competitive-analysis {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .competitor-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .competitor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .competitor-name {
+            font-weight: 600;
+        }
+        
+        .competitor-score {
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        
+        .competitor-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .competitor-metric {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(193, 255, 114, 0.05);
+            border-radius: 6px;
+        }
+        
+        .competitor-metric .value {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+        
+        .competitor-metric .label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        .sentiment-analysis {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sentiment-overview {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sentiment-stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .sentiment-stat .value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .sentiment-stat.positive .value {
+            color: #10b981;
+        }
+        
+        .sentiment-stat.neutral .value {
+            color: #f59e0b;
+        }
+        
+        .sentiment-stat.negative .value {
+            color: #ef4444;
+        }
+        
+        .sentiment-topics {
+            margin-top: 1.5rem;
+        }
+        
+        .sentiment-topic {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #1e293b;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sentiment-topic-name {
+            font-weight: 500;
+        }
+        
+        .sentiment-topic-score {
+            display: flex;
+            align-items: center;
+        }
+        
+        .sentiment-bar {
+            width: 100px;
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            margin: 0 0.5rem;
+            overflow: hidden;
+        }
+        
+        .sentiment-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .sentiment-fill.positive {
+            background: #10b981;
+        }
+        
+        .sentiment-fill.neutral {
+            background: #f59e0b;
+        }
+        
+        .sentiment-fill.negative {
+            background: #ef4444;
+        }
+        
+        .auto-optimization {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .optimization-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .optimization-status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .optimization-status-indicator.active {
+            background: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .optimization-status-indicator.inactive {
+            background: #6b7280;
+        }
+        
+        .optimization-status-text {
+            font-weight: 500;
+        }
+        
+        .optimization-rules {
+            margin-top: 1.5rem;
+        }
+        
+        .optimization-rule {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .optimization-rule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .optimization-rule-name {
+            font-weight: 500;
+        }
+        
+        .optimization-rule-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .rule-enabled {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .rule-disabled {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+        
+        .optimization-rule-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .optimization-rule-metrics {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+        
+        .optimization-rule-metric {
+            text-align: center;
+        }
+        
+        .optimization-rule-metric .value {
+            font-weight: 600;
+        }
+        
+        .optimization-rule-metric .label {
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+        
+        .ai-report {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .report-action {
+            background: rgba(193, 255, 114, 0.1);
+            color: var(--brand-color);
+            border: 1px solid rgba(193, 255, 114, 0.3);
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .report-action:hover {
+            background: rgba(193, 255, 114, 0.2);
+        }
+        
+        .report-summary {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .report-summary h4 {
+            color: var(--brand-color);
+            margin-bottom: 0.75rem;
+        }
+        
+        .report-summary p {
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        
+        .report-highlights {
+            margin-top: 1rem;
+        }
+        
+        .report-highlight {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .report-highlight i {
+            color: var(--brand-color);
+            margin-right: 0.5rem;
+            margin-top: 0.125rem;
+        }
+        
+        .report-highlight-text {
+            flex: 1;
+        }
+        
+        .report-sections {
+            margin-top: 1.5rem;
+        }
+        
+        .report-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-section h4 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .report-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .report-metric {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .report-metric .value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .report-metric .label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .report-chart {
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+        
+        .nlp-query-container {
+            background: rgba(193, 255, 114, 0.1);
+            border: 1px solid rgba(193, 255, 114, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .nlp-query-input {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .nlp-query-input:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.2);
+        }
+        
+        .nlp-response {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .nlp-response h4 {
+            color: var(--brand-color);
+            margin-bottom: 0.75rem;
         }
     </style>
 </head>
@@ -443,6 +1289,12 @@
                         <div class="nav-item" data-section="acquisition">
                             <i class="fas fa-bullhorn"></i>
                             <span>Acquisition</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-item" data-section="aiinsights">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Insights</span>
                         </div>
                     </li>
                     <li>
@@ -563,6 +1415,123 @@
                         </div>
                     </div>
                     
+                    <!-- AI Insights & Performance -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- AI Insights Section -->
+                        <div class="lg:col-span-2">
+                            <div class="card p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-bold">AI Insights</h3>
+                                    <button class="btn-secondary text-sm" onclick="showNotification('Loading more insights...')">View All</button>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="ai-insight-card">
+                                        <h4><i class="fas fa-lightbulb"></i> Optimization Opportunity<span class="ai-confidence">92% confidence</span></h4>
+                                        <p>AI analysis indicates that reallocating 15% of budget from Google Ads to Facebook Ads could increase overall ROI by approximately 18% based on current performance trends.</p>
+                                        <button class="btn-secondary text-sm" onclick="showNotification('Applying optimization recommendation...')">Apply Recommendation</button>
+                                    </div>
+                                    
+                                    <div class="ai-insight-card">
+                                        <h4><i class="fas fa-exclamation-triangle"></i> Anomaly Detected<span class="ai-confidence">87% confidence</span></h4>
+                                        <p>Unusual spike in cost-per-click detected for SaaS Company campaign on Tuesday. Investigation reveals competitor activity in the same keywords. Consider adjusting bids or expanding to alternative keywords.</p>
+                                        <button class="btn-secondary text-sm" onclick="showNotification('Investigating anomaly...')">Investigate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Predictive Analytics -->
+                        <div>
+                            <div class="card p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-bold">Predictive Analytics</h3>
+                                    <select class="form-select bg-gray-800 border-gray-700 text-white text-sm w-auto" onchange="updatePredictions(this.value)">
+                                        <option value="30">Next 30 Days</option>
+                                        <option value="90">Next 90 Days</option>
+                                        <option value="180">Next 6 Months</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="space-y-4" id="predictionsContainer">
+                                    <div class="prediction-card">
+                                        <h4><i class="fas fa-chart-line"></i> Revenue Forecast</h4>
+                                        <div class="prediction-metric">
+                                            <span class="label">Projected:</span>
+                                            <span class="value">$924K</span>
+                                        </div>
+                                        <div class="prediction-metric">
+                                            <span class="label">Confidence:</span>
+                                            <span class="value">89%</span>
+                                        </div>
+                                        <div class="prediction-trend positive">
+                                            <i class="fas fa-arrow-up"></i> 9.1% increase
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="prediction-card">
+                                        <h4><i class="fas fa-users"></i> Client Acquisition</h4>
+                                        <div class="prediction-metric">
+                                            <span class="label">Projected:</span>
+                                            <span class="value">28</span>
+                                        </div>
+                                        <div class="prediction-metric">
+                                            <span class="label">Confidence:</span>
+                                            <span class="value">76%</span>
+                                        </div>
+                                        <div class="prediction-trend positive">
+                                            <i class="fas fa-arrow-up"></i> 16.7% increase
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Natural Language Query & Voice Interface -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Natural Language Query -->
+                        <div>
+                            <div class="card p-4">
+                                <h3 class="text-lg font-bold mb-4">Ask AI Assistant</h3>
+                                
+                                <div class="nlp-query-container">
+                                    <input type="text" class="nlp-query-input" id="nlpQuery" placeholder="Ask a question about your data..." value="Show me the top performing campaigns this month">
+                                    <button class="btn-primary w-full" onclick="processNLPQuery()">Ask AI</button>
+                                    
+                                    <div class="nlp-response" id="nlpResponse">
+                                        <h4>AI Response:</h4>
+                                        <p>Based on current data, here are your top performing campaigns this month:</p>
+                                        <ol class="list-decimal pl-5 mt-2">
+                                            <li>Ecom Store Inc. - Facebook Ads (ROI: 3.8x)</li>
+                                            <li>Coaching Business - LinkedIn Ads (ROI: 3.2x)</li>
+                                            <li>SaaS Company - Google Ads (ROI: 2.9x)</li>
+                                        </ol>
+                                        <p class="mt-2">The Ecom Store campaign shows particularly strong performance with a 42% increase in conversions compared to last month.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Voice Interface -->
+                        <div>
+                            <div class="card p-4">
+                                <h3 class="text-lg font-bold mb-4">Voice Assistant</h3>
+                                
+                                <div class="voice-interface">
+                                    <div class="voice-button" id="voiceButton" onclick="toggleVoiceRecognition()">
+                                        <i class="fas fa-microphone"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-400">Click the microphone and speak your command</p>
+                                    
+                                    <div class="voice-response" id="voiceResponse">
+                                        <p class="text-gray-400">Voice response will appear here...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- AI Agents & Performance -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                         <!-- AI Agents Section -->
@@ -570,7 +1539,7 @@
                             <div class="card p-4">
                                 <div class="flex justify-between items-center mb-4">
                                     <h3 class="text-lg font-bold">AI Agent Performance</h3>
-                                    <button id="deployNewAgentBtn" class="btn-primary flex items-center">
+                                    <button class="btn-primary flex items-center" onclick="openModal('deployAgentModal')">
                                         <i class="fas fa-plus mr-2"></i> Deploy Agent
                                     </button>
                                 </div>
@@ -603,8 +1572,8 @@
                                         </div>
                                         
                                         <div class="flex justify-between text-sm">
-                                            <button class="brand-text hover:underline">View Details</button>
-                                            <button class="text-gray-400 hover:text-white">Configure</button>
+                                            <button class="brand-text hover:underline" onclick="showNotification('Loading agent details...')">View Details</button>
+                                            <button class="text-gray-400 hover:text-white" onclick="showNotification('Opening configuration...')">Configure</button>
                                         </div>
                                     </div>
                                     
@@ -634,8 +1603,8 @@
                                         </div>
                                         
                                         <div class="flex justify-between text-sm">
-                                            <button class="brand-text hover:underline">View Details</button>
-                                            <button class="text-gray-400 hover:text-white">Configure</button>
+                                            <button class="brand-text hover:underline" onclick="showNotification('Loading agent details...')">View Details</button>
+                                            <button class="text-gray-400 hover:text-white" onclick="showNotification('Opening configuration...')">Configure</button>
                                         </div>
                                     </div>
                                 </div>
@@ -647,52 +1616,44 @@
                             <div class="card p-4">
                                 <div class="flex justify-between items-center mb-4">
                                     <h3 class="text-lg font-bold">Conversion Funnel</h3>
-                                    <select class="form-select bg-gray-800 border-gray-700 text-white text-sm w-auto">
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>All Time</option>
+                                    <select class="form-select bg-gray-800 border-gray-700 text-white text-sm w-auto" onchange="updateFunnelData(this.value)">
+                                        <option value="30">Last 30 Days</option>
+                                        <option value="90">Last 90 Days</option>
+                                        <option value="all">All Time</option>
                                     </select>
                                 </div>
                                 
-                                <div class="space-y-3">
-                                    <div>
-                                        <div class="flex justify-between mb-1">
-                                            <span class="text-sm">Impressions</span>
-                                            <span class="text-sm font-medium">2.4M</span>
+                                <div class="space-y-3" id="funnelContainer">
+                                    <div class="funnel-stage">
+                                        <div class="funnel-bar" style="margin-bottom: 0;">
+                                            <div class="funnel-label">Impressions</div>
+                                            <div class="funnel-value">2.4M</div>
                                         </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 100%"></div>
-                                        </div>
+                                        <div class="funnel-bar::before" style="width: 100%"></div>
                                     </div>
                                     
-                                    <div>
-                                        <div class="flex justify-between mb-1">
-                                            <span class="text-sm">Clicks</span>
-                                            <span class="text-sm font-medium">124K</span>
+                                    <div class="funnel-stage">
+                                        <div class="funnel-bar" style="margin-bottom: 0;">
+                                            <div class="funnel-label">Clicks</div>
+                                            <div class="funnel-value">124K</div>
                                         </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 75%"></div>
-                                        </div>
+                                        <div class="funnel-bar::before" style="width: 75%"></div>
                                     </div>
                                     
-                                    <div>
-                                        <div class="flex justify-between mb-1">
-                                            <span class="text-sm">Leads</span>
-                                            <span class="text-sm font-medium">18.6K</span>
+                                    <div class="funnel-stage">
+                                        <div class="funnel-bar" style="margin-bottom: 0;">
+                                            <div class="funnel-label">Leads</div>
+                                            <div class="funnel-value">18.6K</div>
                                         </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 50%"></div>
-                                        </div>
+                                        <div class="funnel-bar::before" style="width: 50%"></div>
                                     </div>
                                     
-                                    <div>
-                                        <div class="flex justify-between mb-1">
-                                            <span class="text-sm">Sales</span>
-                                            <span class="text-sm font-medium">3.1K</span>
+                                    <div class="funnel-stage">
+                                        <div class="funnel-bar" style="margin-bottom: 0;">
+                                            <div class="funnel-label">Sales</div>
+                                            <div class="funnel-value">3.1K</div>
                                         </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: 25%"></div>
-                                        </div>
+                                        <div class="funnel-bar::before" style="width: 25%"></div>
                                     </div>
                                 </div>
                                 
@@ -701,7 +1662,7 @@
                                     <p class="text-xl font-bold brand-text">2.5%</p>
                                 </div>
                                 
-                                <button class="btn-secondary w-full mt-4">Analyze Funnel</button>
+                                <button class="btn-secondary w-full mt-4" onclick="showNotification('Opening funnel analysis...')">Analyze Funnel</button>
                             </div>
                         </div>
                     </div>
@@ -712,7 +1673,7 @@
                         <div class="card p-4">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-lg font-bold">Recent Projects</h3>
-                                <a href="#" class="brand-text text-sm">View All</a>
+                                <button class="brand-text text-sm" onclick="navigateToSection('projects')">View All</button>
                             </div>
                             
                             <div class="space-y-3">
@@ -739,14 +1700,14 @@
                                 </div>
                             </div>
                             
-                            <button id="createProjectBtn" class="btn-primary w-full mt-4">Create New Project</button>
+                            <button class="btn-primary w-full mt-4" onclick="openModal('createProjectModal')">Create New Project</button>
                         </div>
                         
                         <!-- API Connections -->
                         <div class="card p-4">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-lg font-bold">API Connections</h3>
-                                <a href="#" class="brand-text text-sm">Manage All</a>
+                                <button class="brand-text text-sm" onclick="navigateToSection('api')">Manage All</button>
                             </div>
                             
                             <div class="space-y-3">
@@ -777,7 +1738,7 @@
                                 </div>
                             </div>
                             
-                            <button id="addConnectionBtn" class="btn-primary w-full mt-4">Add New Connection</button>
+                            <button class="btn-primary w-full mt-4" onclick="openModal('addConnectionModal')">Add New Connection</button>
                         </div>
                     </div>
                 </div>
@@ -787,7 +1748,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">Projects Management</h3>
-                            <button id="createProjectBtn2" class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('createProjectModal')">
                                 <i class="fas fa-plus mr-2"></i> Create Project
                             </button>
                         </div>
@@ -796,18 +1757,18 @@
                     <div class="card p-4">
                         <div class="mb-4">
                             <div class="flex space-x-4">
-                                <input type="text" placeholder="Search projects..." class="form-input flex-1">
-                                <select class="form-select w-48">
-                                    <option>All Status</option>
-                                    <option>Active</option>
-                                    <option>Paused</option>
-                                    <option>Completed</option>
+                                <input type="text" placeholder="Search projects..." class="form-input flex-1" id="projectSearch" onkeyup="filterProjects()">
+                                <select class="form-select w-48" id="projectFilter" onchange="filterProjects()">
+                                    <option value="">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="paused">Paused</option>
+                                    <option value="completed">Completed</option>
                                 </select>
                             </div>
                         </div>
                         
                         <div class="overflow-x-auto">
-                            <table class="data-table">
+                            <table class="data-table" id="projectsTable">
                                 <thead>
                                     <tr>
                                         <th>Project Name</th>
@@ -828,8 +1789,8 @@
                                         <td>2.48x</td>
                                         <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
                                         <td>
-                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
-                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="editProject(1)">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300" onclick="deleteProject(1)">Delete</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -840,8 +1801,8 @@
                                         <td>2.9x</td>
                                         <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
                                         <td>
-                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
-                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="editProject(2)">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300" onclick="deleteProject(2)">Delete</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -852,8 +1813,8 @@
                                         <td>2.13x</td>
                                         <td><span class="status-paused px-2 py-1 rounded-full text-xs">Paused</span></td>
                                         <td>
-                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
-                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="editProject(3)">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300" onclick="deleteProject(3)">Delete</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -864,8 +1825,8 @@
                                         <td>2.56x</td>
                                         <td><span class="status-active px-2 py-1 rounded-full text-xs">Active</span></td>
                                         <td>
-                                            <button class="text-blue-400 hover:text-blue-300 mr-2">Edit</button>
-                                            <button class="text-red-400 hover:text-red-300">Delete</button>
+                                            <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="editProject(4)">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300" onclick="deleteProject(4)">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -879,7 +1840,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">Clients Management</h3>
-                            <button id="createClientBtn" class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('createClientModal')">
                                 <i class="fas fa-plus mr-2"></i> Add Client
                             </button>
                         </div>
@@ -916,8 +1877,8 @@
                             </div>
                             
                             <div class="flex space-x-2">
-                                <button class="btn-secondary flex-1 text-sm">View Details</button>
-                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="viewClientDetails(1)">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="contactClient(1)">Contact</button>
                             </div>
                         </div>
                         
@@ -950,8 +1911,8 @@
                             </div>
                             
                             <div class="flex space-x-2">
-                                <button class="btn-secondary flex-1 text-sm">View Details</button>
-                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="viewClientDetails(2)">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="contactClient(2)">Contact</button>
                             </div>
                         </div>
                         
@@ -984,8 +1945,8 @@
                             </div>
                             
                             <div class="flex space-x-2">
-                                <button class="btn-secondary flex-1 text-sm">View Details</button>
-                                <button class="btn-secondary flex-1 text-sm">Contact</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="viewClientDetails(3)">View Details</button>
+                                <button class="btn-secondary flex-1 text-sm" onclick="contactClient(3)">Contact</button>
                             </div>
                         </div>
                     </div>
@@ -996,7 +1957,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">API Connections</h3>
-                            <button id="addConnectionBtn2" class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('addConnectionModal')">
                                 <i class="fas fa-plus mr-2"></i> Add Connection
                             </button>
                         </div>
@@ -1096,7 +2057,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">AI Agents Management</h3>
-                            <button id="deployNewAgentBtn2" class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('deployAgentModal')">
                                 <i class="fas fa-plus mr-2"></i> Deploy Agent
                             </button>
                         </div>
@@ -1135,8 +2096,8 @@
                             </div>
                             
                             <div class="flex justify-between text-sm">
-                                <button class="brand-text hover:underline">View Details</button>
-                                <button class="text-gray-400 hover:text-white">Configure</button>
+                                <button class="brand-text hover:underline" onclick="viewAgentDetails(1)">View Details</button>
+                                <button class="text-gray-400 hover:text-white" onclick="configureAgent(1)">Configure</button>
                             </div>
                         </div>
                         
@@ -1171,8 +2132,8 @@
                             </div>
                             
                             <div class="flex justify-between text-sm">
-                                <button class="brand-text hover:underline">View Details</button>
-                                <button class="text-gray-400 hover:text-white">Configure</button>
+                                <button class="brand-text hover:underline" onclick="viewAgentDetails(2)">View Details</button>
+                                <button class="text-gray-400 hover:text-white" onclick="configureAgent(2)">Configure</button>
                             </div>
                         </div>
                         
@@ -1207,8 +2168,8 @@
                             </div>
                             
                             <div class="flex justify-between text-sm">
-                                <button class="brand-text hover:underline">View Details</button>
-                                <button class="text-gray-400 hover:text-white">Resume</button>
+                                <button class="brand-text hover:underline" onclick="viewAgentDetails(3)">View Details</button>
+                                <button class="text-gray-400 hover:text-white" onclick="resumeAgent(3)">Resume</button>
                             </div>
                         </div>
                     </div>
@@ -1313,7 +2274,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">Sales Funnels</h3>
-                            <button class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('createFunnelModal')">
                                 <i class="fas fa-plus mr-2"></i> Create Funnel
                             </button>
                         </div>
@@ -1453,7 +2414,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold">A/B Testing</h3>
-                            <button class="btn-primary flex items-center">
+                            <button class="btn-primary flex items-center" onclick="openModal('createTestModal')">
                                 <i class="fas fa-plus mr-2"></i> New Test
                             </button>
                         </div>
@@ -1464,7 +2425,7 @@
                             <h4 class="text-lg font-bold mb-4">Active Tests</h4>
                             
                             <div class="space-y-4">
-                                <div class="border-l-4 border-blue-500 pl-4">
+                                <div class="ab-test-card variant-a">
                                     <div class="flex justify-between items-start mb-2">
                                         <div>
                                             <h5 class="font-medium">Ad Creative Test</h5>
@@ -1487,7 +2448,7 @@
                                     <p class="text-xs text-gray-400">Running for 5 days</p>
                                 </div>
                                 
-                                <div class="border-l-4 border-purple-500 pl-4">
+                                <div class="ab-test-card variant-b">
                                     <div class="flex justify-between items-start mb-2">
                                         <div>
                                             <h5 class="font-medium">Ad Creative Test</h5>
@@ -1516,7 +2477,7 @@
                             <h4 class="text-lg font-bold mb-4">Completed Tests</h4>
                             
                             <div class="space-y-4">
-                                <div class="border-l-4 border-green-500 pl-4">
+                                <div class="ab-test-card winner">
                                     <div class="flex justify-between items-start mb-2">
                                         <div>
                                             <h5 class="font-medium">Landing Page Test</h5>
@@ -1539,7 +2500,7 @@
                                     <p class="text-xs text-gray-400">Completed 2 days ago</p>
                                 </div>
                                 
-                                <div class="border-l-4 border-gray-500 pl-4">
+                                <div class="ab-test-card">
                                     <div class="flex justify-between items-start mb-2">
                                         <div>
                                             <h5 class="font-medium">Email Subject Test</h5>
@@ -1665,7 +2626,7 @@
                                     </div>
                                 </div>
                                 
-                                <button class="btn-secondary w-full">View Detailed Report</button>
+                                <button class="btn-secondary w-full" onclick="generateFinancialReport()">Generate Report</button>
                             </div>
                         </div>
                     </div>
@@ -1753,6 +2714,412 @@
                     </div>
                 </div>
                 
+                <!-- AI Insights Section -->
+                <div id="aiinsights" class="dashboard-section">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold">AI Insights Hub</h3>
+                    </div>
+                    
+                    <!-- Natural Language Query -->
+                    <div class="card p-4 mb-6">
+                        <h3 class="text-lg font-bold mb-4">AI Data Analyst</h3>
+                        
+                        <div class="ai-chat-container">
+                            <div class="ai-chat-header">
+                                <div class="ai-chat-status"></div>
+                                <span>AI Assistant</span>
+                            </div>
+                            
+                            <div class="ai-chat-messages" id="aiChatMessages">
+                                <div class="ai-message ai">
+                                    <div class="ai-message-content">
+                                        Hello! I'm your AI data analyst. Ask me anything about your campaigns, clients, or performance metrics.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-chat-input">
+                                <input type="text" placeholder="Type your question here..." id="aiChatInput">
+                                <button onclick="sendAIMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Insights Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Strategic Insights -->
+                        <div>
+                            <div class="card p-4">
+                                <h3 class="text-lg font-bold mb-4">Strategic Insights</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="ai-insight-card">
+                                        <h4><i class="fas fa-lightbulb"></i> Market Opportunity<span class="ai-confidence">94% confidence</span></h4>
+                                        <p>AI analysis has identified an untapped market segment in the 25-34 age demographic for your coaching clients. Campaigns targeting this segment show 42% higher conversion rates and 28% lower acquisition costs.</p>
+                                        <button class="btn-secondary text-sm" onclick="showNotification('Creating campaign for 25-34 demographic...')">Create Campaign</button>
+                                    </div>
+                                    
+                                    <div class="ai-insight-card">
+                                        <h4><i class="fas fa-chart-pie"></i> Budget Optimization<span class="ai-confidence">89% confidence</span></h4>
+                                        <p>Reallocation of 15% of budget from underperforming display campaigns to video ads could increase overall ROI by approximately 22% based on current performance data and market trends.</p>
+                                        <button class="btn-secondary text-sm" onclick="showNotification('Applying budget optimization...')">Apply Optimization</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Predictive Analytics -->
+                        <div>
+                            <div class="card p-4">
+                                <h3 class="text-lg font-bold mb-4">Predictive Analytics</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="prediction-card">
+                                        <h4><i class="fas fa-chart-line"></i> Revenue Forecast</h4>
+                                        <div class="prediction-metric">
+                                            <span class="label">Next Quarter:</span>
+                                            <span class="value">$1.2M</span>
+                                        </div>
+                                        <div class="prediction-metric">
+                                            <span class="label">Confidence:</span>
+                                            <span class="value">92%</span>
+                                        </div>
+                                        <div class="prediction-trend positive">
+                                            <i class="fas fa-arrow-up"></i> 41.7% increase
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="prediction-card">
+                                        <h4><i class="fas fa-users"></i> Client Growth</h4>
+                                        <div class="prediction-metric">
+                                            <span class="label">Next Quarter:</span>
+                                            <span class="value">32 clients</span>
+                                        </div>
+                                        <div class="prediction-metric">
+                                            <span class="label">Confidence:</span>
+                                            <span class="value">85%</span>
+                                        </div>
+                                        <div class="prediction-trend positive">
+                                            <i class="fas fa-arrow-up"></i> 33.3% increase
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Recommendations -->
+                    <div class="card p-4 mb-6">
+                        <h3 class="text-lg font-bold mb-4">AI Recommendations</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="recommendation-card">
+                                <h4><i class="fas fa-bullhorn"></i> Campaign Optimization<span class="recommendation-priority priority-high">High Priority</span></h4>
+                                <p>Increase budget for Ecom Store Inc. Facebook Ads campaign by 25%. AI analysis shows strong correlation between ad spend and revenue in this campaign with diminishing returns not yet reached.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Expected ROI increase: 18-22%</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Applying campaign optimization...')">Apply Recommendation</button>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4><i class="fas fa-clock"></i> Timing Optimization<span class="recommendation-priority priority-medium">Medium Priority</span></h4>
+                                <p>Shift ad scheduling for SaaS Company campaigns to 8-10 AM and 6-8 PM EST. AI analysis shows 32% higher engagement during these time periods for target audience.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Expected CTR increase: 15-20%</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Applying timing optimization...')">Apply Recommendation</button>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4><i class="fas fa-palette"></i> Creative Refresh<span class="recommendation-priority priority-medium">Medium Priority</span></h4>
+                                <p>Generate new ad creatives for Local Restaurant campaign. Current creatives show 28% decline in engagement after 6 weeks of rotation.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Expected engagement increase: 25-35%</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Generating new creatives...')">Generate Creatives</button>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4><i class="fas fa-map-marked-alt"></i> Geographic Expansion<span class="recommendation-priority priority-low">Low Priority</span></h4>
+                                <p>Consider expanding Coaching Business campaigns to Texas and Florida markets. AI analysis shows high demand signals and lower competition in these regions.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Expected client increase: 12-15%</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Analyzing market expansion...')">Analyze Markets</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Anomaly Detection -->
+                    <div class="card p-4 mb-6">
+                        <h3 class="text-lg font-bold mb-4">Anomaly Detection</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="anomaly-card">
+                                <h4><i class="fas fa-exclamation-triangle"></i> Cost Spike Detected<span class="anomaly-severity severity-high">High Severity</span></h4>
+                                <p>Unusual 42% increase in CPC detected for SaaS Company Google Ads campaign on October 15th. Investigation reveals new competitor entering the market with aggressive bidding strategy.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Financial impact: $3,200 excess spend</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Investigating cost spike...')">Investigate</button>
+                            </div>
+                            
+                            <div class="anomaly-card">
+                                <h4><i class="fas fa-chart-line"></i> Conversion Drop<span class="anomaly-severity severity-medium">Medium Severity</span></h4>
+                                <p>27% decrease in conversion rate detected for Local Restaurant campaign. Analysis points to recent landing page changes that may have broken conversion tracking.</p>
+                                <div class="mt-2">
+                                    <span class="text-sm text-gray-400">Estimated revenue loss: $1,800</span>
+                                </div>
+                                <button class="btn-secondary text-sm mt-2" onclick="showNotification('Fixing conversion tracking...')">Fix Tracking</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Competitive Analysis -->
+                    <div class="competitive-analysis mb-6">
+                        <h3 class="text-lg font-bold mb-4">Competitive Intelligence</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="competitor-card">
+                                <div class="competitor-header">
+                                    <span class="competitor-name">Competitor A</span>
+                                    <span class="competitor-score">78/100</span>
+                                </div>
+                                <div class="competitor-metrics">
+                                    <div class="competitor-metric">
+                                        <div class="value">$2.4M</div>
+                                        <div class="label">Ad Spend</div>
+                                    </div>
+                                    <div class="competitor-metric">
+                                        <div class="value">3.2x</div>
+                                        <div class="label">ROI</div>
+                                    </div>
+                                    <div class="competitor-metric">
+                                        <div class="value">18</div>
+                                        <div class="label">Campaigns</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-2">Focus: E-commerce, Performance Marketing</p>
+                            </div>
+                            
+                            <div class="competitor-card">
+                                <div class="competitor-header">
+                                    <span class="competitor-name">Competitor B</span>
+                                    <span class="competitor-score">82/100</span>
+                                </div>
+                                <div class="competitor-metrics">
+                                    <div class="competitor-metric">
+                                        <div class="value">$3.1M</div>
+                                        <div class="label">Ad Spend</div>
+                                    </div>
+                                    <div class="competitor-metric">
+                                        <div class="value">3.8x</div>
+                                        <div class="label">ROI</div>
+                                    </div>
+                                    <div class="competitor-metric">
+                                        <div class="value">24</div>
+                                        <div class="label">Campaigns</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-2">Focus: SaaS, Lead Generation</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-insight-card mt-4">
+                            <h4><i class="fas fa-chess"></i> Competitive Strategy<span class="ai-confidence">91% confidence</span></h4>
+                            <p>AI analysis identifies opportunity to capture market share from Competitor B in the mid-market SaaS segment. Their high ad spend indicates potential inefficiencies that can be exploited with more targeted campaigns.</p>
+                            <button class="btn-secondary text-sm" onclick="showNotification('Developing competitive strategy...')">Develop Strategy</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Automated Campaign Optimization -->
+                    <div class="auto-optimization mb-6">
+                        <h3 class="text-lg font-bold mb-4">Automated Campaign Optimization</h3>
+                        
+                        <div class="optimization-status">
+                            <div class="optimization-status-indicator active"></div>
+                            <span class="optimization-status-text">Auto-optimization is active</span>
+                        </div>
+                        
+                        <div class="optimization-rules">
+                            <h4 class="text-md font-bold mb-2">Active Rules</h4>
+                            <div class="optimization-rule">
+                                <div class="optimization-rule-header">
+                                    <span class="optimization-rule-name">Budget Reallocation</span>
+                                    <span class="optimization-rule-status rule-enabled">Enabled</span>
+                                </div>
+                                <p class="optimization-rule-description">Automatically shift budget from underperforming to high-performing campaigns</p>
+                                <div class="optimization-rule-metrics">
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">$12.4K</div>
+                                        <div class="label">Reallocated</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">+18%</div>
+                                        <div class="label">ROI Impact</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">24</div>
+                                        <div class="label">Actions</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="optimization-rule">
+                                <div class="optimization-rule-header">
+                                    <span class="optimization-rule-name">Bid Adjustment</span>
+                                    <span class="optimization-rule-status rule-enabled">Enabled</span>
+                                </div>
+                                <p class="optimization-rule-description">Adjust bids based on performance and competition</p>
+                                <div class="optimization-rule-metrics">
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">142</div>
+                                        <div class="label">Adjustments</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">-12%</div>
+                                        <div class="label">Avg. CPC</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">+8%</div>
+                                        <div class="label">Conversion</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="optimization-rule">
+                                <div class="optimization-rule-header">
+                                    <span class="optimization-rule-name">Creative Refresh</span>
+                                    <span class="optimization-rule-status rule-enabled">Enabled</span>
+                                </div>
+                                <p class="optimization-rule-description">Generate new creatives when engagement drops below threshold</p>
+                                <div class="optimization-rule-metrics">
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">8</div>
+                                        <div class="label">Refreshes</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">+32%</div>
+                                        <div class="label">Engagement</div>
+                                    </div>
+                                    <div class="optimization-rule-metric">
+                                        <div class="value">+24%</div>
+                                        <div class="label">CTR</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Generated Reports -->
+                    <div class="ai-report">
+                        <div class="report-header">
+                            <h3 class="report-title">AI Generated Reports</h3>
+                            <div class="report-actions">
+                                <div class="report-action" onclick="generateReport('weekly')">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="report-action" onclick="generateReport('monthly')">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="report-action" onclick="generateReport('custom')">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-summary">
+                            <h4>Executive Summary</h4>
+                            <p>Q3 performance exceeded expectations with 32% revenue growth compared to Q2. Key drivers include successful expansion into the e-commerce vertical and improved campaign optimization through AI agents. Client retention increased to 94% with an average ROI of 3.8x across all campaigns.</p>
+                            
+                            <div class="report-highlights">
+                                <div class="report-highlight">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="report-highlight-text">32% revenue growth quarter-over-quarter</div>
+                                </div>
+                                <div class="report-highlight">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="report-highlight-text">18% increase in average client ROI</div>
+                                </div>
+                                <div class="report-highlight">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="report-highlight-text">94% client retention rate</div>
+                                </div>
+                                <div class="report-highlight">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="report-highlight-text">28% reduction in customer acquisition cost</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-sections">
+                            <div class="report-section">
+                                <h4>Performance Overview</h4>
+                                <div class="report-metrics">
+                                    <div class="report-metric">
+                                        <div class="value">$2.4M</div>
+                                        <div class="label">Total Revenue</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">3.8x</div>
+                                        <div class="label">Average ROI</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">28</div>
+                                        <div class="label">Active Clients</div>
+                                    </div>
+                                </div>
+                                <div class="report-chart">
+                                    <canvas id="reportRevenueChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="report-section">
+                                <h4>Client Acquisition</h4>
+                                <div class="report-metrics">
+                                    <div class="report-metric">
+                                        <div class="value">8</div>
+                                        <div class="label">New Clients</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">$42.3K</div>
+                                        <div class="label">Avg. Acquisition Cost</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">94%</div>
+                                        <div class="label">Retention Rate</div>
+                                    </div>
+                                </div>
+                                <div class="report-chart">
+                                    <canvas id="reportClientChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="report-section">
+                                <h4>Campaign Performance</h4>
+                                <div class="report-metrics">
+                                    <div class="report-metric">
+                                        <div class="value">124</div>
+                                        <div class="label">Active Campaigns</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">4.2x</div>
+                                        <div class="label">Top ROI</div>
+                                    </div>
+                                    <div class="report-metric">
+                                        <div class="value">87%</div>
+                                        <div class="label">Success Rate</div>
+                                    </div>
+                                </div>
+                                <div class="report-chart">
+                                    <canvas id="reportCampaignChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Settings Section -->
                 <div id="settings" class="dashboard-section">
                     <div class="mb-6">
@@ -1787,7 +3154,7 @@
                                     </select>
                                 </div>
                                 
-                                <button class="btn-primary w-full">Save Changes</button>
+                                <button class="btn-primary w-full" onclick="saveGeneralSettings()">Save Changes</button>
                             </div>
                         </div>
                         
@@ -1797,21 +3164,21 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2" checked>
+                                        <input type="checkbox" class="mr-2" id="autoOptimize" checked>
                                         <span>Auto-optimize campaigns</span>
                                     </label>
                                 </div>
                                 
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2" checked>
+                                        <input type="checkbox" class="mr-2" id="generateReports" checked>
                                         <span>Generate daily reports</span>
                                     </label>
                                 </div>
                                 
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2">
+                                        <input type="checkbox" class="mr-2" id="enableCreative">
                                         <span>Enable creative generation</span>
                                     </label>
                                 </div>
@@ -1825,7 +3192,7 @@
                                     </select>
                                 </div>
                                 
-                                <button class="btn-primary w-full">Save Changes</button>
+                                <button class="btn-primary w-full" onclick="saveAISettings()">Save Changes</button>
                             </div>
                         </div>
                         
@@ -1835,21 +3202,21 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2" checked>
+                                        <input type="checkbox" class="mr-2" id="emailNotifications" checked>
                                         <span>Email notifications</span>
                                     </label>
                                 </div>
                                 
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2" checked>
+                                        <input type="checkbox" class="mr-2" id="pushNotifications" checked>
                                         <span>Push notifications</span>
                                     </label>
                                 </div>
                                 
                                 <div>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="mr-2">
+                                        <input type="checkbox" class="mr-2" id="smsAlerts">
                                         <span>SMS alerts</span>
                                     </label>
                                 </div>
@@ -1859,7 +3226,7 @@
                                     <input type="number" class="form-input" placeholder="ROI below" value="2.0">
                                 </div>
                                 
-                                <button class="btn-primary w-full">Save Changes</button>
+                                <button class="btn-primary w-full" onclick="saveNotificationSettings()">Save Changes</button>
                             </div>
                         </div>
                     </div>
@@ -2087,6 +3454,93 @@
         </div>
     </div>
     
+    <!-- Create Test Modal -->
+    <div id="createTestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Create A/B Test</h2>
+                <button onclick="closeModal('createTestModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createTestForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Test Name</label>
+                        <input type="text" class="form-input" placeholder="Enter test name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project</label>
+                        <select class="form-select" required>
+                            <option value="">Select Project</option>
+                            <option value="ecom">Ecom Store Inc.</option>
+                            <option value="saas">SaaS Company</option>
+                            <option value="restaurant">Local Restaurant</option>
+                            <option value="coaching">Coaching Business</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Test Type</label>
+                        <select class="form-select" required>
+                            <option value="">Select Test Type</option>
+                            <option value="creative">Creative Test</option>
+                            <option value="landing">Landing Page Test</option>
+                            <option value="email">Email Subject Test</option>
+                            <option value="offer">Offer Test</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Description</label>
+                        <textarea class="form-textarea" placeholder="Enter test description..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Create Test</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Funnel Modal -->
+    <div id="createFunnelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">Create Sales Funnel</h2>
+                <button onclick="closeModal('createFunnelModal')" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createFunnelForm">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Funnel Name</label>
+                        <input type="text" class="form-input" placeholder="Enter funnel name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Project</label>
+                        <select class="form-select" required>
+                            <option value="">Select Project</option>
+                            <option value="ecom">Ecom Store Inc.</option>
+                            <option value="saas">SaaS Company</option>
+                            <option value="restaurant">Local Restaurant</option>
+                            <option value="coaching">Coaching Business</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Funnel Stages</label>
+                        <textarea class="form-textarea" placeholder="Enter funnel stages (one per line)..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Create Funnel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <!-- Notification -->
     <div id="notification" class="notification"></div>
     
@@ -2120,6 +3574,7 @@
                     'abtesting': 'A/B Testing',
                     'financials': 'Financial Overview',
                     'acquisition': 'Acquisition Channels',
+                    'aiinsights': 'AI Insights Hub',
                     'settings': 'Settings'
                 };
                 document.getElementById('pageTitle').textContent = titles[section];
@@ -2143,37 +3598,411 @@
             document.getElementById(modalId).classList.remove('active');
         }
         
-        // Deploy New Agent buttons
-        document.getElementById('deployNewAgentBtn').addEventListener('click', function() {
-            openModal('deployAgentModal');
-        });
+        // Navigate to section
+        function navigateToSection(section) {
+            document.querySelectorAll('.nav-item').forEach(navItem => {
+                navItem.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+            
+            document.querySelectorAll('.dashboard-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(section).classList.add('active');
+            
+            const titles = {
+                'dashboard': 'Agency Command Center',
+                'projects': 'Projects Management',
+                'clients': 'Clients Management',
+                'api': 'API Connections',
+                'agents': 'AI Agents Management',
+                'analytics': 'Analytics Dashboard',
+                'funnels': 'Sales Funnels',
+                'abtesting': 'A/B Testing',
+                'financials': 'Financial Overview',
+                'acquisition': 'Acquisition Channels',
+                'aiinsights': 'AI Insights Hub',
+                'settings': 'Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[section];
+        }
         
-        document.getElementById('deployNewAgentBtn2').addEventListener('click', function() {
-            openModal('deployAgentModal');
-        });
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
         
-        // Create Project buttons
-        document.getElementById('createProjectBtn').addEventListener('click', function() {
-            openModal('createProjectModal');
-        });
+        // Process NLP Query
+        function processNLPQuery() {
+            const query = document.getElementById('nlpQuery').value;
+            const responseDiv = document.getElementById('nlpResponse');
+            
+            // Simulate processing delay
+            responseDiv.innerHTML = '<h4>AI Response:</h4><p>Processing your query...</p>';
+            
+            setTimeout(() => {
+                // Generate different responses based on query keywords
+                let response = '';
+                
+                if (query.toLowerCase().includes('top performing') && query.toLowerCase().includes('campaign')) {
+                    response = `
+                        <h4>AI Response:</h4>
+                        <p>Based on current data, here are your top performing campaigns this month:</p>
+                        <ol class="list-decimal pl-5 mt-2">
+                            <li>Ecom Store Inc. - Facebook Ads (ROI: 3.8x)</li>
+                            <li>Coaching Business - LinkedIn Ads (ROI: 3.2x)</li>
+                            <li>SaaS Company - Google Ads (ROI: 2.9x)</li>
+                        </ol>
+                        <p class="mt-2">The Ecom Store campaign shows particularly strong performance with a 42% increase in conversions compared to last month.</p>
+                    `;
+                } else if (query.toLowerCase().includes('roi') || query.toLowerCase().includes('return on investment')) {
+                    response = `
+                        <h4>AI Response:</h4>
+                        <p>Your current average ROI across all campaigns is <strong>4.2x</strong>, which is 18% above the industry average.</p>
+                        <p class="mt-2">Top performing campaigns by ROI:</p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Ecom Store Inc. - Facebook Ads: 5.2x ROI</li>
+                            <li>Coaching Business - LinkedIn Ads: 4.8x ROI</li>
+                            <li>SaaS Company - Google Ads: 3.9x ROI</li>
+                        </ul>
+                    `;
+                } else if (query.toLowerCase().includes('client') || query.toLowerCase().includes('customer')) {
+                    response = `
+                        <h4>AI Response:</h4>
+                        <p>You currently have <strong>24 active clients</strong> with a retention rate of 94%.</p>
+                        <p class="mt-2">Top clients by revenue:</p>
+                        <ol class="list-decimal pl-5 mt-2">
+                            <li>Ecom Store Inc. - $124,000 revenue</li>
+                            <li>SaaS Company - $87,000 revenue</li>
+                            <li>Coaching Business - $64,000 revenue</li>
+                        </ol>
+                    `;
+                } else {
+                    response = `
+                        <h4>AI Response:</h4>
+                        <p>I've analyzed your query: "${query}". Based on your current data, I recommend focusing on optimizing your top-performing campaigns to maximize ROI.</p>
+                        <p class="mt-2">Would you like me to provide more specific insights on any particular aspect of your business?</p>
+                    `;
+                }
+                
+                responseDiv.innerHTML = response;
+            }, 1500);
+        }
         
-        document.getElementById('createProjectBtn2').addEventListener('click', function() {
-            openModal('createProjectModal');
-        });
+        // Voice Interface
+        let isListening = false;
         
-        // Add Connection buttons
-        document.getElementById('addConnectionBtn').addEventListener('click', function() {
-            openModal('addConnectionModal');
-        });
+        function toggleVoiceRecognition() {
+            const voiceButton = document.getElementById('voiceButton');
+            const voiceResponse = document.getElementById('voiceResponse');
+            
+            if (!isListening) {
+                // Start listening
+                voiceButton.classList.add('listening');
+                voiceButton.innerHTML = '<i class="fas fa-stop"></i>';
+                voiceResponse.innerHTML = '<p class="text-gray-400">Listening... Speak now.</p>';
+                isListening = true;
+                
+                // Simulate voice recognition after 2 seconds
+                setTimeout(() => {
+                    voiceButton.classList.remove('listening');
+                    voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                    voiceResponse.innerHTML = `
+                        <h4>Command Recognized:</h4>
+                        <p>"Show me the top performing campaigns this month"</p>
+                        <p class="mt-2">Based on current data, here are your top performing campaigns this month:</p>
+                        <ol class="list-decimal pl-5 mt-2">
+                            <li>Ecom Store Inc. - Facebook Ads (ROI: 3.8x)</li>
+                            <li>Coaching Business - LinkedIn Ads (ROI: 3.2x)</li>
+                            <li>SaaS Company - Google Ads (ROI: 2.9x)</li>
+                        </ol>
+                    `;
+                    isListening = false;
+                }, 2000);
+            } else {
+                // Stop listening
+                voiceButton.classList.remove('listening');
+                voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                voiceResponse.innerHTML = '<p class="text-gray-400">Voice recognition stopped.</p>';
+                isListening = false;
+            }
+        }
         
-        document.getElementById('addConnectionBtn2').addEventListener('click', function() {
-            openModal('addConnectionModal');
-        });
+        // Update predictions based on time period
+        function updatePredictions(period) {
+            const predictionsContainer = document.getElementById('predictionsContainer');
+            
+            let revenue, clients, revenueConfidence, clientConfidence;
+            
+            switch(period) {
+                case '30':
+                    revenue = '$924K';
+                    clients = '28';
+                    revenueConfidence = '89%';
+                    clientConfidence = '76%';
+                    break;
+                case '90':
+                    revenue = '$1.8M';
+                    clients = '35';
+                    revenueConfidence = '85%';
+                    clientConfidence = '72%';
+                    break;
+                case '180':
+                    revenue = '$3.2M';
+                    clients = '42';
+                    revenueConfidence = '78%';
+                    clientConfidence = '68%';
+                    break;
+                default:
+                    revenue = '$924K';
+                    clients = '28';
+                    revenueConfidence = '89%';
+                    clientConfidence = '76%';
+            }
+            
+            predictionsContainer.innerHTML = `
+                <div class="prediction-card">
+                    <h4><i class="fas fa-chart-line"></i> Revenue Forecast</h4>
+                    <div class="prediction-metric">
+                        <span class="label">Projected:</span>
+                        <span class="value">${revenue}</span>
+                    </div>
+                    <div class="prediction-metric">
+                        <span class="label">Confidence:</span>
+                        <span class="value">${revenueConfidence}</span>
+                    </div>
+                    <div class="prediction-trend positive">
+                        <i class="fas fa-arrow-up"></i> Increase projected
+                    </div>
+                </div>
+                
+                <div class="prediction-card">
+                    <h4><i class="fas fa-users"></i> Client Acquisition</h4>
+                    <div class="prediction-metric">
+                        <span class="label">Projected:</span>
+                        <span class="value">${clients}</span>
+                    </div>
+                    <div class="prediction-metric">
+                        <span class="label">Confidence:</span>
+                        <span class="value">${clientConfidence}</span>
+                    </div>
+                    <div class="prediction-trend positive">
+                        <i class="fas fa-arrow-up"></i> Increase projected
+                    </div>
+                </div>
+            `;
+            
+            showNotification(`Predictions updated for ${period === '30' ? '30 days' : period === '90' ? '90 days' : '6 months'}`);
+        }
         
-        // Create Client button
-        document.getElementById('createClientBtn').addEventListener('click', function() {
-            openModal('createClientModal');
-        });
+        // Update funnel data based on time period
+        function updateFunnelData(period) {
+            const funnelContainer = document.getElementById('funnelContainer');
+            
+            let impressions, clicks, leads, sales;
+            
+            switch(period) {
+                case '30':
+                    impressions = '2.4M';
+                    clicks = '124K';
+                    leads = '18.6K';
+                    sales = '3.1K';
+                    break;
+                case '90':
+                    impressions = '6.8M';
+                    clicks = '342K';
+                    leads = '48.2K';
+                    sales = '8.7K';
+                    break;
+                case 'all':
+                    impressions = '24.6M';
+                    clicks = '1.2M';
+                    leads = '156K';
+                    sales = '32K';
+                    break;
+                default:
+                    impressions = '2.4M';
+                    clicks = '124K';
+                    leads = '18.6K';
+                    sales = '3.1K';
+            }
+            
+            funnelContainer.innerHTML = `
+                <div class="funnel-stage">
+                    <div class="funnel-bar" style="margin-bottom: 0;">
+                        <div class="funnel-label">Impressions</div>
+                        <div class="funnel-value">${impressions}</div>
+                    </div>
+                </div>
+                
+                <div class="funnel-stage">
+                    <div class="funnel-bar" style="margin-bottom: 0;">
+                        <div class="funnel-label">Clicks</div>
+                        <div class="funnel-value">${clicks}</div>
+                    </div>
+                </div>
+                
+                <div class="funnel-stage">
+                    <div class="funnel-bar" style="margin-bottom: 0;">
+                        <div class="funnel-label">Leads</div>
+                        <div class="funnel-value">${leads}</div>
+                    </div>
+                </div>
+                
+                <div class="funnel-stage">
+                    <div class="funnel-bar" style="margin-bottom: 0;">
+                        <div class="funnel-label">Sales</div>
+                        <div class="funnel-value">${sales}</div>
+                    </div>
+                </div>
+            `;
+            
+            showNotification(`Funnel data updated for ${period === '30' ? '30 days' : period === '90' ? '90 days' : 'all time'}`);
+        }
+        
+        // Filter projects
+        function filterProjects() {
+            const searchTerm = document.getElementById('projectSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('projectFilter').value;
+            const rows = document.querySelectorAll('#projectsTable tbody tr');
+            
+            rows.forEach(row => {
+                const projectName = row.cells[0].textContent.toLowerCase();
+                const clientName = row.cells[1].textContent.toLowerCase();
+                const status = row.cells[5].querySelector('span').textContent.toLowerCase();
+                
+                const matchesSearch = searchTerm === '' || 
+                    projectName.includes(searchTerm) || 
+                    clientName.includes(searchTerm);
+                
+                const matchesStatus = statusFilter === '' || status.includes(statusFilter.toLowerCase());
+                
+                if (matchesSearch && matchesStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Project management functions
+        function editProject(id) {
+            showNotification(`Editing project #${id}...`);
+            // In a real app, this would open an edit modal or navigate to an edit page
+        }
+        
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                // In a real app, this would make an API call to delete the project
+                showNotification(`Project #${id} deleted successfully`);
+                
+                // Remove the row from the table
+                const rows = document.querySelectorAll('#projectsTable tbody tr');
+                rows.forEach(row => {
+                    if (row.cells[6].querySelector('button').getAttribute('onclick').includes(`deleteProject(${id})`)) {
+                        row.remove();
+                    }
+                });
+            }
+        }
+        
+        // Client management functions
+        function viewClientDetails(id) {
+            showNotification(`Loading details for client #${id}...`);
+            // In a real app, this would navigate to a client details page
+        }
+        
+        function contactClient(id) {
+            showNotification(`Opening contact options for client #${id}...`);
+            // In a real app, this would open a contact modal or page
+        }
+        
+        // AI Agent management functions
+        function viewAgentDetails(id) {
+            showNotification(`Loading details for AI agent #${id}...`);
+            // In a real app, this would navigate to an agent details page
+        }
+        
+        function configureAgent(id) {
+            showNotification(`Opening configuration for AI agent #${id}...`);
+            // In a real app, this would open a configuration modal
+        }
+        
+        function resumeAgent(id) {
+            showNotification(`Resuming AI agent #${id}...`);
+            // In a real app, this would make an API call to resume the agent
+            
+            // Update the UI to show the agent as active
+            const cards = document.querySelectorAll('#agents .card');
+            cards.forEach(card => {
+                const button = card.querySelector('button[onclick*="resumeAgent"]');
+                if (button && button.getAttribute('onclick').includes(`resumeAgent(${id})`)) {
+                    const statusBadge = card.querySelector('.status-paused');
+                    if (statusBadge) {
+                        statusBadge.classList.remove('status-paused');
+                        statusBadge.classList.add('status-active');
+                        statusBadge.textContent = 'Active';
+                    }
+                    
+                    button.textContent = 'Configure';
+                    button.setAttribute('onclick', `configureAgent(${id})`);
+                }
+            });
+        }
+        
+        // Generate financial report
+        function generateFinancialReport() {
+            showNotification('Generating financial report...');
+            // In a real app, this would generate and download a PDF report
+        }
+        
+        // AI Chat functionality
+        function sendAIMessage() {
+            const input = document.getElementById('aiChatInput');
+            const messagesContainer = document.getElementById('aiChatMessages');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message to chat
+            const userMessage = document.createElement('div');
+            userMessage.className = 'ai-message user';
+            userMessage.innerHTML = `<div class="ai-message-content">${message}</div>`;
+            messagesContainer.appendChild(userMessage);
+            
+            // Clear input
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'ai-message ai';
+                
+                let response = '';
+                
+                if (message.toLowerCase().includes('roi') || message.toLowerCase().includes('return on investment')) {
+                    response = 'Based on your current campaigns, your average ROI is 4.2x, which is above the industry average of 3.5x. Your top performing campaign is Ecom Store Inc. on Facebook Ads with an ROI of 5.2x.';
+                } else if (message.toLowerCase().includes('campaign') || message.toLowerCase().includes('ad')) {
+                    response = 'You currently have 124 active campaigns across 28 clients. The top performing campaigns this month are Ecom Store Inc. (Facebook Ads), Coaching Business (LinkedIn Ads), and SaaS Company (Google Ads).';
+                } else if (message.toLowerCase().includes('client') || message.toLowerCase().includes('customer')) {
+                    response = 'You have 24 active clients with a retention rate of 94%. Your top clients by revenue are Ecom Store Inc. ($124K), SaaS Company ($87K), and Coaching Business ($64K).';
+                } else {
+                    response = 'I understand you\'re asking about "' + message + '". Based on your current data, I recommend focusing on optimizing your top-performing campaigns to maximize ROI. Would you like me to provide more specific insights?';
+                }
+                
+                aiMessage.innerHTML = `<div class="ai-message-content">${response}</div>`;
+                messagesContainer.appendChild(aiMessage);
+                
+                // Scroll to bottom of chat
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
         
         // Form submissions
         document.getElementById('deployAgentForm').addEventListener('submit', function(e) {
@@ -2200,15 +4029,35 @@
             showNotification('Client added successfully!');
         });
         
-        // Show notification
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+        document.getElementById('createTestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('createTestModal');
+            showNotification('A/B test created successfully!');
+        });
+        
+        document.getElementById('createFunnelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('createFunnelModal');
+            showNotification('Sales funnel created successfully!');
+        });
+        
+        // Settings functions
+        function saveGeneralSettings() {
+            showNotification('General settings saved successfully!');
+        }
+        
+        function saveAISettings() {
+            showNotification('AI settings saved successfully!');
+        }
+        
+        function saveNotificationSettings() {
+            showNotification('Notification settings saved successfully!');
+        }
+        
+        // Report generation
+        function generateReport(type) {
+            showNotification(`Generating ${type} report...`);
+            // In a real app, this would generate and download a report
         }
         
         // Close modals when clicking outside
@@ -2338,7 +4187,7 @@
                                 ticks: {
                                     color: '#9ca3af',
                                     callback: function(value) {
-                                        return '$' + (value / 1000) + 'K';
+                                        return '$' + (value / 1000000).toFixed(1) + 'M';
                                     }
                                 },
                                 grid: {
@@ -2378,6 +4227,158 @@
                         plugins: {
                             legend: {
                                 display: false
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: {
+                                    color: '#9ca3af',
+                                    backdropColor: 'transparent'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                },
+                                pointLabels: {
+                                    color: '#e2e8f0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Report Charts
+            const reportRevenueCtx = document.getElementById('reportRevenueChart');
+            if (reportRevenueCtx) {
+                new Chart(reportRevenueCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                        datasets: [{
+                            label: 'Revenue',
+                            data: [650000, 720000, 680000, 750000, 810000, 847000, 920000, 1050000, 1240000],
+                            borderColor: '#c1ff72',
+                            backgroundColor: 'rgba(193, 255, 114, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    color: '#9ca3af',
+                                    callback: function(value) {
+                                        return '$' + (value / 1000000).toFixed(1) + 'M';
+                                    }
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const reportClientCtx = document.getElementById('reportClientChart');
+            if (reportClientCtx) {
+                new Chart(reportClientCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                        datasets: [{
+                            label: 'New Clients',
+                            data: [2, 3, 1, 4, 2, 3, 5, 4, 4],
+                            backgroundColor: '#c1ff72'
+                        }, {
+                            label: 'Retention Rate',
+                            data: [85, 87, 86, 88, 90, 91, 92, 93, 94],
+                            backgroundColor: '#8b5cf6',
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            },
+                            y1: {
+                                position: 'right',
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    color: '#9ca3af',
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#374151'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const reportCampaignCtx = document.getElementById('reportCampaignChart');
+            if (reportCampaignCtx) {
+                new Chart(reportCampaignCtx.getContext('2d'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['ROI', 'CTR', 'Conversion Rate', 'Engagement', 'Reach', 'Cost Efficiency'],
+                        datasets: [{
+                            label: 'Current Quarter',
+                            data: [85, 78, 82, 90, 75, 88],
+                            borderColor: '#c1ff72',
+                            backgroundColor: 'rgba(193, 255, 114, 0.2)'
+                        }, {
+                            label: 'Previous Quarter',
+                            data: [72, 65, 68, 75, 70, 80],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.2)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e2e8f0'
+                                }
                             }
                         },
                         scales: {
